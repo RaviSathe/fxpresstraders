@@ -1,0 +1,170 @@
+<app-page-hero
+  eyebrow="Markets"
+  title="Two markets."
+  hot="One method."
+  lede="Forex and crypto behave differently, but the rules for trading them well are the same: read structure, size your risk, follow your plan."
+>
+  <div class="cta-row cta-row--center">
+    <a class="btn btn--primary" data-mag routerLink="/markets" fragment="forex">Forex</a>
+    <a class="btn btn--ghost" data-mag routerLink="/markets" fragment="crypto">Crypto</a>
+  </div>
+</app-page-hero>
+
+<!-- Forex -->
+<section class="section section--flush" id="forex">
+  <div class="wrap split__grid">
+    <div class="split__copy" data-reveal>
+      <p class="pill-label">Forex</p>
+      <h2 class="h2">The world's biggest market.</h2>
+      <p class="lede">
+        Currencies are traded in pairs, around the clock from Monday to Friday. Price moves most when big financial
+        centres are open, so knowing the sessions is the first edge you learn.
+      </p>
+      <ul class="checks">
+        <li>Open 24 hours, five days a week</li>
+        <li>Four main sessions: Sydney, Tokyo, London, New York</li>
+        <li>The busiest hours are when sessions overlap</li>
+        <li>Traded through a broker</li>
+      </ul>
+    </div>
+    <div class="split__visual">
+      <app-sessions-panel data-reveal />
+      <app-area-chart label="EUR/USD · daily close" [title]="eurusdTitle()" [data]="eurusd()" source="ECB rate" [seed]="90" />
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">Major pairs</p>
+      <h2 class="h2">The pairs we <span class="soft">start with.</span></h2>
+    </header>
+    <ul class="asset-grid">
+      @for (p of forex(); track p.symbol; let i = $index) {
+        <li class="asset" data-spot data-reveal [style.--d]="i * 60 + 'ms'">
+          <div class="asset__top">
+            <strong>{{ p.symbol }}</strong>
+            @if (p.d) {
+              <svg class="spark" [class.down]="!p.up" viewBox="0 0 60 22" aria-hidden="true"><path [attr.d]="p.d" /></svg>
+            }
+          </div>
+          <div class="asset__quote">
+            @if (p.price) {
+              <span class="asset__price mono">{{ p.price }}</span>
+              <span class="asset__chg" [class.is-down]="!p.up">{{ p.up ? '▲' : '▼' }} {{ p.change }}</span>
+            } @else {
+              <span class="asset__price asset__price--wait mono">Loading…</span>
+            }
+          </div>
+          <span class="asset__name">{{ p.name }}</span>
+          <p>{{ p.note }}</p>
+        </li>
+      }
+    </ul>
+    <p class="fine center source-note">
+      ECB reference rates via Frankfurter, updated once per working day@if (forexDate()) { (latest: {{ forexDate() }})}.
+      Change is versus the previous day. Sparklines show the last 30 days.
+    </p>
+  </div>
+</section>
+
+<!-- Crypto -->
+<section class="section" id="crypto">
+  <div class="wrap split__grid split__grid--flip">
+    <div class="split__copy" data-reveal>
+      <p class="pill-label">Crypto</p>
+      <h2 class="h2">A market that never sleeps.</h2>
+      <p class="lede">
+        Crypto trades every hour of every day, and it moves far more than forex. The same method applies, with even
+        more respect for risk, and one extra job: keeping your coins safe.
+      </p>
+      <ul class="checks">
+        <li>Open 24/7, including weekends</li>
+        <li>Bigger swings, so smaller positions</li>
+        <li>Spot and futures explained</li>
+        <li>Wallet and exchange safety first</li>
+      </ul>
+    </div>
+    <ul class="crypto-stack">
+      @for (c of crypto(); track c.symbol; let i = $index) {
+        <li class="asset asset--wide" data-spot data-reveal [style.--d]="i * 90 + 'ms'">
+          <span class="coin-badge" [attr.data-coin]="i" aria-hidden="true">{{ i === 0 ? '₿' : i === 1 ? 'Ξ' : '$' }}</span>
+          <div>
+            <strong>{{ c.symbol }}</strong>
+            <span class="asset__name">{{ c.name }}</span>
+            <p>{{ c.note }}</p>
+          </div>
+          <div class="asset__side">
+            @if (c.price) {
+              <span class="asset__price mono">${{ c.price }}</span>
+              <span class="asset__chg" [class.is-down]="!c.up">{{ c.up ? '▲' : '▼' }} {{ c.change }} · 24h</span>
+            } @else {
+              <span class="asset__price asset__price--wait mono">Loading…</span>
+            }
+            @if (c.d) {
+              <svg class="spark" [class.down]="!c.up" viewBox="0 0 60 22" aria-hidden="true"><path [attr.d]="c.d" /></svg>
+            }
+          </div>
+        </li>
+      }
+      <li class="fine source-note">
+        @switch (cryptoSource()) {
+          @case ('binance') { <span class="live-dot"></span> Live prices from Binance, updated every second. Sparklines show the last 24 hours. }
+          @case ('coingecko') { Prices from CoinGecko, refreshed every minute. }
+          @default { Connecting to live prices… }
+        }
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Comparison -->
+<section class="section section--tight">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">Side by side</p>
+      <h2 class="h2">Forex vs crypto</h2>
+    </header>
+    <div class="compare" data-reveal>
+      <div class="compare__toggle" role="group" aria-label="Highlight a market">
+        <button type="button" [class.is-on]="highlight() === 'forex'" [attr.aria-pressed]="highlight() === 'forex'" (click)="highlight.set('forex')">Forex</button>
+        <button type="button" [class.is-on]="highlight() === 'crypto'" [attr.aria-pressed]="highlight() === 'crypto'" (click)="highlight.set('crypto')">Crypto</button>
+      </div>
+      <table class="compare__table" [attr.data-focus]="highlight()">
+        <thead>
+          <tr><th scope="col"><span class="sr-only">Topic</span></th><th scope="col" class="col-forex">Forex</th><th scope="col" class="col-crypto">Crypto</th></tr>
+        </thead>
+        <tbody>
+          @for (row of comparison; track row.label) {
+            <tr>
+              <th scope="row">{{ row.label }}</th>
+              <td class="col-forex">{{ row.forex }}</td>
+              <td class="col-crypto">{{ row.crypto }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Glossary -->
+<section class="section">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">Glossary</p>
+      <h2 class="h2">Words you'll <span class="soft">hear on day one.</span></h2>
+    </header>
+    <dl class="glossary">
+      @for (g of glossary; track g.term; let i = $index) {
+        <div data-spot data-reveal [style.--d]="(i % 4) * 60 + 'ms'">
+          <dt>{{ g.term }}</dt>
+          <dd>{{ g.def }}</dd>
+        </div>
+      }
+    </dl>
+  </div>
+</section>
+
+<app-join-cta title="Learn both markets, one step at a time." />

@@ -1,0 +1,422 @@
+/* =====================================================================
+   Contact page, Resources page (calculators), mentor card extras
+   ===================================================================== */
+
+.text-up {
+  color: var(--up);
+}
+
+.chips a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--orange-2);
+  }
+}
+
+/* ---------- Mentor ---------- */
+
+.mentor__photo {
+  position: relative;
+  align-content: end;
+  gap: 8px;
+}
+
+.mentor__initials {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font);
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-transform: none;
+  background: linear-gradient(180deg, #ffb36b, #ff5b1f 60%, #b8300a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mentor__role {
+  margin: -4px 0 14px !important;
+  color: var(--orange-2) !important;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ---------- Contact ---------- */
+
+.contact {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 24px;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+
+  &__side {
+    display: grid;
+    gap: 12px;
+  }
+
+  &__note {
+    margin-top: 10px;
+    padding: 20px 4px 0;
+    border-top: 1px solid var(--line);
+
+    h2 {
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    a {
+      color: var(--orange-2);
+    }
+  }
+
+  &__form {
+    padding: clamp(24px, 4vw, 36px);
+
+    .h3 {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.channel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  color: inherit;
+  text-decoration: none;
+
+  strong {
+    display: block;
+    font-size: 17px;
+  }
+
+  small {
+    color: var(--muted);
+    font-size: 13px;
+    word-break: break-all;
+  }
+
+  .ico--arrow {
+    color: var(--dim);
+    transition:
+      transform 0.35s var(--ease),
+      color 0.25s;
+  }
+
+  &:hover {
+    transform: translateX(4px);
+
+    .ico--arrow {
+      color: var(--orange-2);
+      transform: translateX(4px);
+    }
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &--tg {
+      background: linear-gradient(150deg, #3fb3ff, #1d84d6);
+    }
+
+    &--wa {
+      background: linear-gradient(150deg, #3be07f, #18a957);
+    }
+
+    &--call {
+      background: linear-gradient(150deg, var(--orange-2), var(--orange));
+    }
+
+    &--mail {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line);
+    }
+  }
+}
+
+/* ---------- Calculators ---------- */
+
+.tool {
+  display: grid;
+  grid-template-columns: 0.8fr 1.6fr;
+  gap: clamp(24px, 4vw, 48px);
+  padding: clamp(24px, 4vw, 40px);
+  scroll-margin-top: 100px;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+
+  &__intro {
+    .h3 {
+      margin: 14px 0 10px;
+    }
+
+    > p:not(.pill-label) {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .fine {
+      margin-top: 14px;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__inputs {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+  }
+
+  &__out {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid var(--line-hot);
+    background: linear-gradient(170deg, rgba(255, 91, 31, 0.1), rgba(255, 255, 255, 0.01));
+  }
+
+  &__big {
+    display: grid;
+    gap: 2px;
+
+    span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    strong {
+      font-size: clamp(30px, 4vw, 40px);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      background: linear-gradient(180deg, #ffd2a8, #ff7a35);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      small {
+        font-size: 0.45em;
+        color: var(--muted);
+        -webkit-text-fill-color: var(--muted);
+      }
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 0;
+
+    > div {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    dt {
+      color: var(--dim);
+      font-size: 12px;
+    }
+
+    dd {
+      margin: 2px 0 0;
+      font-size: 15px;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  &__grid-wide {
+    grid-column: 1 / -1;
+  }
+
+  &__warn {
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 61, 90, 0.1);
+    border: 1px solid rgba(255, 61, 90, 0.3);
+    color: #ff9aaa;
+    font-size: 13px;
+  }
+
+  input[type='range'] {
+    min-height: 0;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    accent-color: var(--orange);
+    box-shadow: none;
+  }
+
+  // Hide number spinners: cleaner, and avoids accidental scroll changes.
+  input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}
+
+.rr-bar {
+  display: flex;
+  height: 30px;
+  overflow: hidden;
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+
+  span {
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: flex-basis 0.5s var(--ease);
+  }
+
+  &__risk {
+    flex: 0 0 var(--risk, 50%);
+    background: rgba(255, 61, 90, 0.25);
+    color: #ff9aaa;
+  }
+
+  &__reward {
+    flex: 1;
+    background: rgba(31, 224, 143, 0.2);
+    color: var(--up);
+  }
+}
+
+.journal-icon {
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  background: linear-gradient(150deg, rgba(255, 120, 50, 0.3), rgba(255, 91, 31, 0.06));
+  border: 1px solid var(--line-hot);
+
+  svg {
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: var(--orange-2);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.ref-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
+
+  > li {
+    display: grid;
+  }
+}
+
+.ref {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 22px;
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  strong {
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+
+  > span:not(.tag) {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .tag {
+    justify-self: start;
+    margin-bottom: 6px;
+  }
+
+  &__out {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--dim);
+    transition:
+      color 0.25s,
+      transform 0.35s var(--ease);
+  }
+
+  &:hover &__out {
+    color: var(--orange-2);
+    transform: translate(2px, -2px);
+  }
+}

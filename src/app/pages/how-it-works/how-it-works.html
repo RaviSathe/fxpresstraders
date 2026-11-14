@@ -1,0 +1,72 @@
+<app-page-hero
+  eyebrow="How it works"
+  title="No signals. No promises."
+  hot="Just the skill."
+  lede="You learn to read the market yourself, practise without risking money, and only move on when you're ready."
+/>
+
+<section class="section section--flush">
+  <div class="wrap">
+    <ol class="steps steps--four" data-reveal>
+      @for (s of steps; track s.verb; let i = $index) {
+        <li class="step" data-spot [style.--d]="i * 140 + 'ms'">
+          <span class="step__no">{{ i + 1 }}</span>
+          <h3>{{ s.verb }}</h3>
+          <p>{{ s.body }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split__grid">
+    <div class="split__copy" data-reveal>
+      <p class="pill-label">Inside the community</p>
+      <h2 class="h2">What you get when you join.</h2>
+      <p class="lede">
+        The community is where the course lives. Lessons, chart breakdowns and questions all happen in the group, so
+        you're never learning alone.
+      </p>
+      <a class="btn btn--primary" data-mag routerLink="/community">
+        Join the community
+        <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+    <ul class="perk-grid">
+      @for (p of perks; track p.title; let i = $index) {
+        <li data-spot data-reveal [style.--d]="i * 80 + 'ms'">
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.body }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section section--tight" id="faq">
+  <div class="wrap faq-wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">FAQ</p>
+      <h2 class="h2">Questions <span class="soft">beginners ask.</span></h2>
+    </header>
+    <div class="faq">
+      @for (f of faqs; track f.q; let i = $index) {
+        <details class="faq__item" data-reveal [style.--d]="(i % 4) * 50 + 'ms'" [attr.open]="i === 0 ? '' : null">
+          <summary>
+            {{ f.q }}
+            <span class="faq__icon" aria-hidden="true"></span>
+          </summary>
+          <p>
+            {{ f.a }}
+            @if (f.placeholder) {
+              <span class="tag">Placeholder</span>
+            }
+          </p>
+        </details>
+      }
+    </div>
+  </div>
+</section>
+
+<app-join-cta />

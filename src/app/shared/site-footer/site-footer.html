@@ -1,0 +1,42 @@
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a class="brand" routerLink="/" aria-label="fxpressTraders home">
+          <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 17 10 11l3 3 6-7M14 7h5v5" /></svg></span>
+          <span class="brand__word">fxpress<b>Traders</b></span>
+        </a>
+        <p>A forex &amp; crypto trading course and community for beginners.</p>
+      </div>
+
+      <nav class="footer__col" aria-label="Pages">
+        <h2>Pages</h2>
+        @for (l of links; track l.path) {
+          <a [routerLink]="l.path">{{ l.label }}</a>
+        }
+      </nav>
+
+      <nav class="footer__col" aria-label="Community">
+        <h2>Community</h2>
+        <a routerLink="/community">Join</a>
+        <a [href]="telegramUrl" target="_blank" rel="noopener">Telegram</a>
+        <a [href]="whatsappUrl" target="_blank" rel="noopener">WhatsApp</a>
+      </nav>
+
+      <nav class="footer__col" aria-label="Legal">
+        <h2>Legal</h2>
+        <a routerLink="/risk-disclosure">Risk disclosure</a>
+      </nav>
+    </div>
+
+    <p class="footer__risk">
+      <strong>Risk warning.</strong> Trading forex and crypto carries a high level of risk and may not be suitable for
+      everyone. You can lose some or all of your money. fxpressTraders provides education only. Nothing on this site is
+      financial advice or a guarantee of profit, and past performance does not indicate future results. Market prices
+      come from third parties (Binance, CoinGecko, and ECB rates via Frankfurter), may be delayed or inaccurate, and must
+      not be used to place trades. Charts labelled "Illustration" or "Demo" use simulated data.
+      <a routerLink="/risk-disclosure">Read the full risk disclosure</a>.
+    </p>
+    <p class="footer__copy">© {{ year }} fxpressTraders</p>
+  </div>
+</footer>

@@ -1,0 +1,63 @@
+<app-page-hero
+  eyebrow="About"
+  title="Trading education,"
+  hot="done honestly."
+  lede="fxpressTraders teaches forex and crypto trading through a course and a community, built for people who are just starting out."
+/>
+
+<section class="section section--flush">
+  <div class="wrap">
+    <article class="mentor" data-spot data-reveal>
+      <div class="mentor__photo" aria-hidden="true">
+        <span class="mentor__initials">{{ initials }}</span>
+        <span>Photo coming soon</span>
+      </div>
+      <div>
+        <p class="eyebrow eyebrow--left">The trader behind the course</p>
+        <h2 class="h3">{{ mentor.name }}</h2>
+        <p class="mentor__role">{{ mentor.role }}</p>
+        <p>
+          Hi, I am Prajwal and i have been trading from last 9 years, In Forex market and so so so so..
+        </p>
+        <span class="tag">Bio placeholder: replace with real details</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">What we stand for</p>
+      <h2 class="h2">Four rules <span class="soft">we don't break.</span></h2>
+    </header>
+    <ol class="principles">
+      @for (p of principles; track p.title; let i = $index) {
+        <li data-spot data-reveal [style.--d]="i * 80 + 'ms'">
+          <span class="principles__no mono">0{{ i + 1 }}</span>
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.body }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="quote-grid">
+      <figure class="specimen" data-spot data-reveal>
+        <blockquote>A real student's words go here, used with their permission.</blockquote>
+        <figcaption>Student name · City</figcaption>
+        <span class="tag">Placeholder</span>
+      </figure>
+      <figure class="specimen" data-spot data-reveal style="--d: 100ms">
+        <blockquote>A second student's story: what they learned, not what they earned.</blockquote>
+        <figcaption>Student name · City</figcaption>
+        <span class="tag">Placeholder</span>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<app-join-cta title="Come and say hello." body="The community is free. Ask anything, and start learning at your own pace." />

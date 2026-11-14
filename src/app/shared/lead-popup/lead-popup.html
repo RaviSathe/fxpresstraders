@@ -1,0 +1,116 @@
+<dialog
+  #dialog
+  class="lead"
+  aria-labelledby="lead-title"
+  aria-describedby="lead-desc"
+  (cancel)="onCancel($event)"
+  (click)="onDialogClick($event)"
+>
+  <div class="lead__card">
+    <button type="button" class="lead__x" aria-label="Close and keep browsing" (click)="close()">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+    </button>
+
+    @if (state() !== 'done') {
+      <div class="lead__head">
+        <p class="badge"><span class="badge__dot"></span>Free community</p>
+        <h2 class="lead__title" id="lead-title">Start learning <span class="text-hot">with us.</span></h2>
+        <p class="lead__desc" id="lead-desc">
+          Leave your details and we'll send you the community link and your first lesson. Takes 20 seconds.
+        </p>
+      </div>
+
+      <form class="lead__form" novalidate (submit)="submit($event)">
+        <div class="field" [class.has-error]="errors()['name']">
+          <label for="lead-name">Your name</label>
+          <input id="lead-name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80"
+            placeholder="e.g. Rahul Sharma" [attr.aria-invalid]="!!errors()['name']"
+            [attr.aria-describedby]="errors()['name'] ? 'lead-name-err' : null" (input)="clearError('name')" />
+          @if (errors()['name']) { <p class="field__err" id="lead-name-err">{{ errors()['name'] }}</p> }
+        </div>
+
+        <div class="field-row">
+          <div class="field" [class.has-error]="errors()['phone']">
+            <label for="lead-phone">WhatsApp / phone</label>
+            <input id="lead-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required
+              pattern="^\+?[0-9 ()\-]{7,20}$" maxlength="24" placeholder="+91 98765 43210"
+              [attr.aria-invalid]="!!errors()['phone']"
+              [attr.aria-describedby]="errors()['phone'] ? 'lead-phone-err' : null" (input)="clearError('phone')" />
+            @if (errors()['phone']) { <p class="field__err" id="lead-phone-err">{{ errors()['phone'] }}</p> }
+          </div>
+
+          <div class="field" [class.has-error]="errors()['email']">
+            <label for="lead-email">Email <span class="field__opt">(optional)</span></label>
+            <input id="lead-email" name="email" type="email" autocomplete="email" maxlength="120"
+              placeholder="you@example.com" [attr.aria-invalid]="!!errors()['email']"
+              [attr.aria-describedby]="errors()['email'] ? 'lead-email-err' : null" (input)="clearError('email')" />
+            @if (errors()['email']) { <p class="field__err" id="lead-email-err">{{ errors()['email'] }}</p> }
+          </div>
+        </div>
+
+        <fieldset class="field" [class.has-error]="errors()['interest']">
+          <legend>What do you want to learn?</legend>
+          <div class="seg">
+            <label><input type="radio" name="interest" value="forex" required (change)="clearError('interest')" /><span>Forex</span></label>
+            <label><input type="radio" name="interest" value="crypto" (change)="clearError('interest')" /><span>Crypto</span></label>
+            <label><input type="radio" name="interest" value="both" (change)="clearError('interest')" /><span>Both</span></label>
+          </div>
+          @if (errors()['interest']) { <p class="field__err">{{ errors()['interest'] }}</p> }
+        </fieldset>
+
+        <div class="field" [class.has-error]="errors()['experience']">
+          <label for="lead-exp">Your trading experience</label>
+          <select id="lead-exp" name="experience" required [attr.aria-invalid]="!!errors()['experience']" (change)="clearError('experience')">
+            <option value="" selected disabled>Choose one</option>
+            <option value="new">Complete beginner</option>
+            <option value="some">I've tried a little</option>
+            <option value="trading">I already trade</option>
+          </select>
+          @if (errors()['experience']) { <p class="field__err">{{ errors()['experience'] }}</p> }
+        </div>
+
+        <!-- Honeypot for bots: hidden from people and screen readers -->
+        <div class="form-hp" aria-hidden="true">
+          <label for="lead-website">Website</label>
+          <input id="lead-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <label class="check" [class.has-error]="errors()['consent']">
+          <input type="checkbox" name="consent" required (change)="clearError('consent')" />
+          <span>
+            I agree that fxpressTraders can contact me about the course on WhatsApp, phone or email. Education only,
+            not financial advice.
+          </span>
+        </label>
+        @if (errors()['consent']) { <p class="field__err">{{ errors()['consent'] }}</p> }
+
+        @if (formError()) { <p class="form-error" role="alert">{{ formError() }}</p> }
+
+        <div class="form-actions">
+          <button type="button" class="btn btn--ghost" (click)="close()">Cancel</button>
+          <button type="submit" class="btn btn--primary" [disabled]="state() === 'sending'">
+            @if (state() === 'sending') { <span class="spinner" aria-hidden="true"></span> Sending… }
+            @else {
+              Get my free lesson
+              <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            }
+          </button>
+        </div>
+        <p class="form-fine">We'll never share your details. You can ask us to delete them at any time.</p>
+      </form>
+    } @else {
+      <div class="lead__done" role="status">
+        <span class="lead__tick" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
+        </span>
+        <h2 class="lead__title" id="lead-title">Thanks{{ firstName() ? ', ' + firstName() : '' }}!</h2>
+        <p class="lead__desc">We've got your details and will be in touch soon. You can join the community right now:</p>
+        <div class="form-actions form-actions--center">
+          <a class="btn btn--primary" [href]="telegramUrl" target="_blank" rel="noopener">Join on Telegram</a>
+          <a class="btn btn--ghost" [href]="whatsappUrl" target="_blank" rel="noopener">Join on WhatsApp</a>
+        </div>
+        <button type="button" class="lead__link" (click)="close()">Keep browsing the site</button>
+      </div>
+    }
+  </div>
+</dialog>

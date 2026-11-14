@@ -1,0 +1,251 @@
+<app-page-hero
+  eyebrow="Resources"
+  title="Free tools for"
+  hot="smarter trades."
+  lede="Calculators we use in the course, a trade journal template, and the best free sites for charts, news and reading."
+>
+  <ul class="chips">
+    <li><a routerLink="/resources" fragment="position-size">Position size</a></li>
+    <li><a routerLink="/resources" fragment="crypto-size">Crypto size</a></li>
+    <li><a routerLink="/resources" fragment="risk-reward">Risk / reward</a></li>
+    <li><a routerLink="/resources" fragment="journal">Trade journal</a></li>
+    <li><a routerLink="/resources" fragment="links">Free sites</a></li>
+  </ul>
+</app-page-hero>
+
+<!-- ============ Forex position size ============ -->
+<section class="section section--flush" id="position-size">
+  <div class="wrap tool" data-spot data-reveal>
+    <div class="tool__intro">
+      <p class="pill-label">Calculator</p>
+      <h2 class="h3">Forex position size</h2>
+      <p>How big should this trade be? Enter how much you're willing to lose, and where your stop loss is.</p>
+      <p class="fine">
+        Assumes a USD account.
+        @if (fxLive()) { Uses the latest ECB rate for {{ fxPair() }}. } @else { Uses an approximate rate until live rates load. }
+      </p>
+    </div>
+
+    <div class="tool__body">
+      <div class="tool__inputs">
+        <div class="field">
+          <label for="fx-bal">Account balance ($)</label>
+          <input id="fx-bal" type="number" inputmode="decimal" min="0" step="any" [value]="fxBalance()" (input)="set(fxBalance, $event)" />
+        </div>
+        <div class="field">
+          <label for="fx-risk">Risk per trade (%)</label>
+          <input id="fx-risk" type="number" inputmode="decimal" min="0" max="100" step="0.1" [value]="fxRisk()" (input)="set(fxRisk, $event)" />
+          <span class="field__hint">Most traders keep this at 1–2%.</span>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="fx-pair">Pair</label>
+            <select id="fx-pair" [value]="fxPair()" (change)="fxPair.set($any($event.target).value)">
+              @for (p of fxPairs; track p.symbol) { <option [value]="p.symbol">{{ p.symbol }}</option> }
+            </select>
+          </div>
+          <div class="field">
+            <label for="fx-stop">Stop loss (pips)</label>
+            <input id="fx-stop" type="number" inputmode="decimal" min="0" step="0.1" [value]="fxStop()" (input)="set(fxStop, $event)" />
+          </div>
+        </div>
+      </div>
+
+      <div class="tool__out" aria-live="polite">
+        <div class="tool__big">
+          <span>Position size</span>
+          <strong class="mono">{{ fmt(fx().lots, 2) }} <small>lots</small></strong>
+        </div>
+        <dl class="tool__grid">
+          <div><dt>Money at risk</dt><dd class="mono text-down">${{ fmt(fx().riskUsd) }}</dd></div>
+          <div><dt>Units</dt><dd class="mono">{{ fx().units.toLocaleString('en-US') }}</dd></div>
+          <div><dt>Mini lots</dt><dd class="mono">{{ fmt(fx().mini, 2) }}</dd></div>
+          <div><dt>Micro lots</dt><dd class="mono">{{ fmt(fx().micro, 1) }}</dd></div>
+          <div><dt>Per pip</dt><dd class="mono">${{ fmt(fx().perPip) }}</dd></div>
+          <div><dt>Pip value / lot</dt><dd class="mono">${{ fmt(pipValue()) }}</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Crypto position size ============ -->
+<section class="section section--tight" id="crypto-size">
+  <div class="wrap tool" data-spot data-reveal>
+    <div class="tool__intro">
+      <p class="pill-label">Calculator</p>
+      <h2 class="h3">Crypto position size</h2>
+      <p>Crypto moves fast. Size by your stop distance so one bad trade only costs what you planned.</p>
+      <p class="fine">
+        @if (cLivePrice()) { Entry defaults to the live {{ cPair() }} price. Type your own to override it. }
+        @else { Enter your planned entry price. }
+      </p>
+    </div>
+
+    <div class="tool__body">
+      <div class="tool__inputs">
+        <div class="field-row">
+          <div class="field">
+            <label for="c-bal">Account balance ($)</label>
+            <input id="c-bal" type="number" inputmode="decimal" min="0" step="any" [value]="cBalance()" (input)="set(cBalance, $event)" />
+          </div>
+          <div class="field">
+            <label for="c-risk">Risk per trade (%)</label>
+            <input id="c-risk" type="number" inputmode="decimal" min="0" max="100" step="0.1" [value]="cRisk()" (input)="set(cRisk, $event)" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-pair">Coin</label>
+            <select id="c-pair" [value]="cPair()" (change)="setCPair($event)">
+              @for (p of cryptoPairs; track p) { <option [value]="p">{{ p }}</option> }
+            </select>
+          </div>
+          <div class="field">
+            <label for="c-entry">Entry price ($)</label>
+            <input id="c-entry" type="number" inputmode="decimal" min="0" step="any"
+              [placeholder]="cLivePrice() ? fmt(cLivePrice()!) : 'e.g. 70000'"
+              [value]="cEntry() ?? ''" (input)="setEntry($event)" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-stop">Stop loss distance (%) <span class="field__opt">below entry</span></label>
+          <input id="c-stop" type="range" min="0.5" max="15" step="0.5" [value]="cStopPct()" (input)="set(cStopPct, $event)" />
+          <span class="field__hint mono">{{ cStopPct() }}% → stop at ${{ fmt(crypto().stopPrice) }}</span>
+        </div>
+      </div>
+
+      <div class="tool__out" aria-live="polite">
+        <div class="tool__big">
+          <span>Buy quantity</span>
+          <strong class="mono">{{ fmt(crypto().qty, crypto().qty < 1 ? 5 : 3) }} <small>{{ cPair().split('/')[0] }}</small></strong>
+        </div>
+        <dl class="tool__grid">
+          <div><dt>Money at risk</dt><dd class="mono text-down">${{ fmt(crypto().riskUsd) }}</dd></div>
+          <div><dt>Position value</dt><dd class="mono">${{ fmt(crypto().value) }}</dd></div>
+          <div><dt>Entry used</dt><dd class="mono">${{ fmt(cEntryUsed()) }}</dd></div>
+          <div>
+            <dt>Leverage needed</dt>
+            <dd class="mono" [class.text-down]="crypto().leverage > 1">{{ fmt(crypto().leverage, 1) }}×</dd>
+          </div>
+        </dl>
+        @if (crypto().leverage > 1) {
+          <p class="tool__warn">This position is bigger than your account. Use a wider stop, a lower risk %, or skip the trade.</p>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Risk / reward ============ -->
+<section class="section section--tight" id="risk-reward">
+  <div class="wrap tool" data-spot data-reveal>
+    <div class="tool__intro">
+      <p class="pill-label">Calculator</p>
+      <h2 class="h3">Risk / reward</h2>
+      <p>Is this trade worth taking? Compare what you can lose with what you can make, and the win rate you'd need.</p>
+    </div>
+
+    <div class="tool__body">
+      <div class="tool__inputs">
+        <div class="field">
+          <label for="rr-entry">Entry price</label>
+          <input id="rr-entry" type="number" inputmode="decimal" step="any" [value]="rrEntry()" (input)="set(rrEntry, $event)" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="rr-stop">Stop loss</label>
+            <input id="rr-stop" type="number" inputmode="decimal" step="any" [value]="rrStop()" (input)="set(rrStop, $event)" />
+          </div>
+          <div class="field">
+            <label for="rr-target">Take profit</label>
+            <input id="rr-target" type="number" inputmode="decimal" step="any" [value]="rrTarget()" (input)="set(rrTarget, $event)" />
+          </div>
+        </div>
+      </div>
+
+      <div class="tool__out" aria-live="polite">
+        <div class="tool__big">
+          <span>{{ rr().direction }}</span>
+          <strong class="mono">1 : {{ fmt(rr().ratio, 2) }}</strong>
+        </div>
+        <div class="rr-bar" [style.--risk]="rr().riskPct + '%'" aria-hidden="true">
+          <span class="rr-bar__risk">Risk</span><span class="rr-bar__reward">Reward</span>
+        </div>
+        <dl class="tool__grid">
+          <div><dt>Risk per unit</dt><dd class="mono text-down">{{ fmt(rr().risk, 5) }}</dd></div>
+          <div><dt>Reward per unit</dt><dd class="mono text-up">{{ fmt(rr().reward, 5) }}</dd></div>
+          <div class="tool__grid-wide">
+            <dt>Win rate needed to break even</dt>
+            <dd class="mono">{{ fmt(rr().breakeven, 1) }}%</dd>
+          </div>
+        </dl>
+        @if (!rr().valid) {
+          <p class="tool__warn">For a buy, the stop goes below entry and the target above. For a sell, the opposite.</p>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Journal ============ -->
+<section class="section section--tight" id="journal">
+  <div class="wrap">
+    <div class="cta" data-spot data-reveal>
+      <div class="journal-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5zM9 9h6M9 13h6M9 17h3" /></svg>
+      </div>
+      <div class="cta__copy">
+        <h2 class="h3">Trade journal template</h2>
+        <p>A ready-made spreadsheet with the columns we use in module 6. Opens in Excel, Google Sheets or Numbers.</p>
+      </div>
+      <div class="cta__actions">
+        <button type="button" class="btn btn--primary" data-mag (click)="downloadJournal()">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
+          Download CSV
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ On this site ============ -->
+<section class="section section--tight">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">On this site</p>
+      <h2 class="h2">Quick references</h2>
+    </header>
+    <ul class="ref-grid">
+      <li data-reveal><a class="ref" data-spot routerLink="/markets" fragment="forex"><strong>Forex sessions</strong><span>Which markets are open right now</span></a></li>
+      <li data-reveal style="--d: 60ms"><a class="ref" data-spot routerLink="/markets"><strong>Glossary</strong><span>Pip, lot, spread, leverage and more</span></a></li>
+      <li data-reveal style="--d: 120ms"><a class="ref" data-spot routerLink="/course"><strong>Syllabus</strong><span>All 6 modules and 24 lessons</span></a></li>
+      <li data-reveal style="--d: 180ms"><a class="ref" data-spot routerLink="/how-it-works" fragment="faq"><strong>FAQ</strong><span>Answers to beginner questions</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ External ============ -->
+<section class="section section--tight" id="links">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">Free elsewhere</p>
+      <h2 class="h2">Sites worth <span class="soft">bookmarking.</span></h2>
+    </header>
+    <ul class="ref-grid">
+      @for (l of links; track l.url; let i = $index) {
+        <li data-reveal [style.--d]="i * 60 + 'ms'">
+          <a class="ref ref--ext" data-spot [href]="l.url" target="_blank" rel="noopener noreferrer">
+            <span class="tag">{{ l.tag }}</span>
+            <strong>{{ l.title }}</strong>
+            <span>{{ l.body }}</span>
+            <svg class="ico ref__out" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg>
+          </a>
+        </li>
+      }
+    </ul>
+    <p class="fine center">External sites are independent of fxpressTraders. We're not paid to list them.</p>
+  </div>
+</section>
+
+<app-join-cta title="Use the tools with a teacher." body="Join the free community and we'll show you how to use each one on real charts." />

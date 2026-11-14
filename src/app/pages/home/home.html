@@ -1,0 +1,196 @@
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero__copy">
+    <p class="badge" data-reveal><span class="badge__dot"></span>Learn smarter. Trade calmer.</p>
+    <h1 class="hero__title" data-reveal style="--d: 80ms">
+      <span class="line">Step into the</span>
+      <span class="line">future of</span>
+      <span class="line hero__hot">Trading</span>
+    </h1>
+    <p class="hero__lede" data-reveal style="--d: 200ms">
+      A forex &amp; crypto course and community for beginners. Charts, risk and discipline, learned step by step and
+      never rushed.
+    </p>
+    <div class="cta-row" data-reveal style="--d: 300ms">
+      <a class="btn btn--primary" data-mag [href]="telegramUrl" target="_blank" rel="noopener">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4 3 11l6 2.2M21 4l-3.2 15L9 13.2M21 4 9 13.2m0 0V19l3.2-3.6" /></svg>
+        Join on Telegram
+        <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      <a class="btn btn--ghost" data-mag routerLink="/course">Explore the course</a>
+    </div>
+    <ul class="hero__facts" data-reveal style="--d: 400ms">
+      <li><strong>Forex + Crypto</strong><span>Two markets, one method</span></li>
+      <li><strong>Beginner first</strong><span>No experience needed</span></li>
+      <li><strong>Free to join</strong><span>Telegram &amp; WhatsApp</span></li>
+    </ul>
+    <p class="hero__hint" data-reveal style="--d: 520ms">
+      <span class="hint-lines" aria-hidden="true"><i></i><i></i></span>
+      Click anywhere on the page
+    </p>
+  </div>
+
+  <div class="stage" #stage aria-hidden="true" data-reveal style="--d: 150ms">
+    <div class="planet"></div>
+    <div class="orbit orbit--a"><i></i></div>
+    <div class="orbit orbit--b"><i></i></div>
+
+    <div class="device">
+      <div class="device__screen">
+        <div class="device__top">
+          <span class="pair">
+            <span class="chip-coin" [class.chip-coin--btc]="live()">{{ live() ? '₿' : '€' }}</span>{{ heroPair() }}
+          </span>
+          @if (live()) {
+            <span class="tag tag--live"><i class="live-dot"></i>Live · Binance</span>
+          } @else {
+            <span class="tag">Demo feed</span>
+          }
+        </div>
+        <div class="device__price">{{ price() }}</div>
+        <div class="device__chg" [class.is-down]="change() < 0">{{ changeLabel() }}</div>
+
+        <svg class="candles" viewBox="0 0 320 150">
+          <line class="candles__last" x1="0" x2="320" [attr.y1]="candleView().last" [attr.y2]="candleView().last" />
+          @for (c of candleView().bars; track $index) {
+            <g [class.up]="c.up" [class.down]="!c.up">
+              <line [attr.x1]="c.x" [attr.x2]="c.x" [attr.y1]="c.hi" [attr.y2]="c.lo" />
+              <rect [attr.x]="c.bx" [attr.y]="c.top" [attr.width]="c.bw" [attr.height]="c.h" rx="1" />
+            </g>
+          }
+        </svg>
+
+        <div class="device__tf"><span class="is-on">1m</span><span>5m</span><span>15m</span><span>1H</span><span>4H</span></div>
+
+        <ul class="device__list">
+          @for (h of heroList(); track h.pair) {
+            <li>
+              <span class="chip-coin" [class]="h.coin ? 'chip-coin chip-coin--' + h.coin : 'chip-coin'">{{ h.glyph }}</span>{{ h.pair }}
+              @if (h.price) {
+                <em class="device__q">{{ h.price }} <b [class.is-down]="!h.up">{{ h.change }}</b></em>
+              } @else {
+                <em>{{ h.kind }}</em>
+              }
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <span class="coin coin--btc">₿</span>
+    <span class="coin coin--eth">Ξ</span>
+    <span class="coin coin--eur">€</span>
+    <span class="coin coin--usd">$</span>
+  </div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<section class="ticker" aria-label="Markets covered">
+  <div class="ticker__track">
+    @for (round of [0, 1]; track round) {
+      <ul class="ticker__group" [attr.aria-hidden]="round === 1 ? 'true' : null">
+        @for (t of ticker(); track t.pair) {
+          <li>
+            <strong>{{ t.pair }}</strong>
+            @if (t.d) {
+              <svg class="spark" [class.down]="!t.up" viewBox="0 0 60 22" aria-hidden="true"><path [attr.d]="t.d" /></svg>
+            }
+            @if (t.price) {
+              <span class="ticker__price">{{ t.price }}</span>
+              <span class="ticker__chg" [class.is-down]="!t.up">{{ t.up ? '▲' : '▼' }} {{ t.change }}</span>
+            } @else {
+              <span>{{ t.kind }}</span>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</section>
+
+<!-- ============ COURSE PREVIEW ============ -->
+<section class="section">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">Why fxpressTraders</p>
+      <h2 class="h2">Powerful lessons<br /><span class="soft">for smarter trading</span></h2>
+      <p>Six modules, in order. Each one builds on the last, so you're never thrown into the deep end.</p>
+    </header>
+
+    <ol class="cards">
+      @for (m of modules; track m.title; let i = $index) {
+        <li class="card" data-spot data-reveal [style.--d]="i * 70 + 'ms'">
+          <span class="card__no">{{ (i + 1).toString().padStart(2, '0') }}</span>
+          <span class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path [attr.d]="m.icon" /></svg>
+          </span>
+          <h3>{{ m.title }}</h3>
+          <p>{{ m.body }}</p>
+        </li>
+      }
+    </ol>
+    <div class="center-row" data-reveal>
+      <a class="btn btn--ghost" data-mag routerLink="/course">
+        See every lesson
+        <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARKETS PREVIEW ============ -->
+<section class="section split">
+  <div class="wrap split__grid">
+    <div class="split__visual">
+      <app-area-chart />
+      <app-sessions-panel data-reveal style="--d: 120ms" />
+    </div>
+
+    <div class="split__copy" data-reveal>
+      <p class="pill-label">More than a course</p>
+      <h2 class="h2">Two markets.<br />One method.</h2>
+      <p class="lede">
+        Forex runs 24 hours a day, five days a week. Crypto never closes. We teach both with the same rules: read
+        structure, size your risk, follow your plan.
+      </p>
+      <ul class="checks">
+        <li>Major pairs: EUR/USD, GBP/USD, USD/JPY</li>
+        <li>BTC, ETH and the coins worth knowing</li>
+        <li>Position sizing on every single trade</li>
+        <li>Wallet and exchange safety first</li>
+      </ul>
+      <a class="btn btn--primary" data-mag routerLink="/markets">
+        Explore the markets
+        <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW PREVIEW ============ -->
+<section class="section">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">How it works</p>
+      <h2 class="h2">Three steps. <span class="soft">No shortcuts.</span></h2>
+      <p>No signals to copy, no promises of profit. You learn the skill yourself.</p>
+    </header>
+    <ol class="steps" data-reveal>
+      @for (s of steps; track s.verb; let i = $index) {
+        <li class="step" data-spot [style.--d]="i * 140 + 'ms'">
+          <span class="step__no">{{ i + 1 }}</span>
+          <h3>{{ s.verb }}</h3>
+          <p>{{ s.body }}</p>
+        </li>
+      }
+    </ol>
+    <div class="center-row" data-reveal>
+      <a class="btn btn--ghost" data-mag routerLink="/how-it-works">
+        How it works, and FAQ
+        <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<app-join-cta />

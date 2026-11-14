@@ -1,0 +1,151 @@
+<app-page-hero
+  eyebrow="Contact us"
+  title="Questions?"
+  hot="Ask us anything."
+  lede="About the course, the community or anything else. Send a message, or reach us directly on Telegram or WhatsApp."
+/>
+
+<section class="section section--flush">
+  <div class="wrap contact">
+    <!-- Direct channels -->
+    <aside class="contact__side">
+      <a class="channel" data-spot data-reveal [href]="telegramUrl" target="_blank" rel="noopener">
+        <span class="channel__icon channel__icon--tg" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M21 4 3 11l6 2.2M21 4l-3.2 15L9 13.2M21 4 9 13.2m0 0V19l3.2-3.6" /></svg>
+        </span>
+        <span>
+          <strong>Telegram</strong>
+          <small>Chat with us on {{ phone }}</small>
+        </span>
+        <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      <a class="channel" data-spot data-reveal style="--d: 80ms" [href]="whatsappUrl" target="_blank" rel="noopener">
+        <span class="channel__icon channel__icon--wa" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.3z" /><path d="M9.2 8.3c.2 3.4 3 6.3 6.5 6.5l1-1.5-1.9-1-1 .9c-1-.5-1.8-1.3-2.3-2.3l.9-1-1-1.9z" /></svg>
+        </span>
+        <span>
+          <strong>WhatsApp</strong>
+          <small>Chat with us on {{ phone }}</small>
+        </span>
+        <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      <a class="channel" data-spot data-reveal style="--d: 120ms" [href]="phoneUrl">
+        <span class="channel__icon channel__icon--call" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" /></svg>
+        </span>
+        <span>
+          <strong>Call us</strong>
+          <small>{{ phone }}</small>
+        </span>
+        <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      <a class="channel" data-spot data-reveal style="--d: 160ms" [href]="'mailto:' + email">
+        <span class="channel__icon channel__icon--mail" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 6 9-6" /></svg>
+        </span>
+        <span>
+          <strong>Email</strong>
+          <small>{{ email }}</small>
+        </span>
+        <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+
+      <div class="contact__note" data-reveal style="--d: 240ms">
+        <h2>Before you write</h2>
+        <p>
+          Quick answers to common questions are on the <a routerLink="/how-it-works" fragment="faq">FAQ</a>. We can't give
+          personal trading or investment advice.
+        </p>
+      </div>
+    </aside>
+
+    <!-- Form -->
+    <div class="contact__form" data-spot data-reveal>
+      @if (state() !== 'done') {
+        <h2 class="h3">Send us a message</h2>
+        <form class="lead__form" novalidate (submit)="submit($event)">
+          <div class="field" [class.has-error]="errors()['name']">
+            <label for="c-name">Your name</label>
+            <input id="c-name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80"
+              [attr.aria-invalid]="!!errors()['name']" [attr.aria-describedby]="errors()['name'] ? 'c-name-err' : null"
+              (input)="clearError('name')" />
+            @if (errors()['name']) { <p class="field__err" id="c-name-err">{{ errors()['name'] }}</p> }
+          </div>
+
+          <div class="field-row">
+            <div class="field" [class.has-error]="errors()['email']">
+              <label for="c-email">Email</label>
+              <input id="c-email" name="email" type="email" autocomplete="email" maxlength="120"
+                [attr.aria-invalid]="!!errors()['email']" [attr.aria-describedby]="errors()['email'] ? 'c-email-err' : 'c-reach'"
+                (input)="clearError('email')" />
+              @if (errors()['email']) { <p class="field__err" id="c-email-err">{{ errors()['email'] }}</p> }
+            </div>
+            <div class="field" [class.has-error]="errors()['phone']">
+              <label for="c-phone">Phone / WhatsApp</label>
+              <input id="c-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24"
+                pattern="^\+?[0-9 ()\-]{7,20}$" [attr.aria-invalid]="!!errors()['phone']"
+                [attr.aria-describedby]="errors()['phone'] ? 'c-phone-err' : 'c-reach'" (input)="clearError('phone'); clearError('email')" />
+              @if (errors()['phone']) { <p class="field__err" id="c-phone-err">{{ errors()['phone'] }}</p> }
+            </div>
+          </div>
+          <p class="field__hint" id="c-reach">Fill in at least one, so we can reply.</p>
+
+          <div class="field" [class.has-error]="errors()['topic']">
+            <label for="c-topic">Topic</label>
+            <select id="c-topic" name="topic" required [attr.aria-invalid]="!!errors()['topic']" (change)="clearError('topic')">
+              <option value="" selected disabled>Choose a topic</option>
+              <option value="course">The course</option>
+              <option value="community">Joining the community</option>
+              <option value="partnership">Partnership or press</option>
+              <option value="other">Something else</option>
+            </select>
+            @if (errors()['topic']) { <p class="field__err">{{ errors()['topic'] }}</p> }
+          </div>
+
+          <div class="field" [class.has-error]="errors()['message']">
+            <label for="c-message">Message <span class="field__opt">{{ chars() }}/3000</span></label>
+            <textarea id="c-message" name="message" required minlength="10" maxlength="3000"
+              [attr.aria-invalid]="!!errors()['message']" [attr.aria-describedby]="errors()['message'] ? 'c-msg-err' : null"
+              (input)="clearError('message'); chars.set($any($event.target).value.length)"></textarea>
+            @if (errors()['message']) { <p class="field__err" id="c-msg-err">{{ errors()['message'] }}</p> }
+          </div>
+
+          <div class="form-hp" aria-hidden="true">
+            <label for="c-website">Website</label>
+            <input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <label class="check" [class.has-error]="errors()['consent']">
+            <input type="checkbox" name="consent" required (change)="clearError('consent')" />
+            <span>I agree that fxpressTraders can use these details to reply to my message.</span>
+          </label>
+          @if (errors()['consent']) { <p class="field__err">{{ errors()['consent'] }}</p> }
+
+          @if (formError()) { <p class="form-error" role="alert">{{ formError() }}</p> }
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn--primary" data-mag [disabled]="state() === 'sending'">
+              @if (state() === 'sending') { <span class="spinner" aria-hidden="true"></span> Sending… }
+              @else {
+                Send message
+                <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              }
+            </button>
+          </div>
+        </form>
+      } @else {
+        <div class="lead__done" role="status">
+          <span class="lead__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7" /></svg></span>
+          <h2 class="h3">Message sent</h2>
+          <p class="lead__desc">Thanks for getting in touch. We'll reply as soon as we can.</p>
+          <div class="form-actions form-actions--center">
+            <button type="button" class="btn btn--ghost" (click)="again()">Send another message</button>
+            <a class="btn btn--primary" routerLink="/resources">Explore free resources</a>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<app-join-cta />

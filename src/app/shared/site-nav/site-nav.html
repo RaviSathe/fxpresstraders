@@ -1,0 +1,105 @@
+<header class="nav" [class.is-open]="open()">
+  <a class="brand nav__brand-link" routerLink="/" aria-label="fxpressTraders home">
+    <span class="brand__mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M5 17 10 11l3 3 6-7M14 7h5v5" /></svg>
+    </span>
+    <span class="brand__word">fxpress<b>Traders</b></span>
+  </a>
+
+  <nav class="nav__links" aria-label="Main">
+    @for (l of links; track l.path) {
+      <a [routerLink]="l.path" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: l.path === '/' }" ariaCurrentWhenActive="page">{{ l.label }}</a>
+    }
+  </nav>
+
+  <div class="nav__end">
+    <a class="btn btn--primary btn--sm nav__join" data-mag routerLink="/community">Join free</a>
+    <button
+      #toggleBtn
+      type="button"
+      class="nav__toggle"
+      [attr.aria-expanded]="open()"
+      aria-controls="site-drawer"
+      [attr.aria-label]="open() ? 'Close menu' : 'Open menu'"
+      (click)="toggle()"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile / tablet sidebar: every link and button lives here -->
+<div class="drawer-scrim" [class.is-open]="open()" (click)="close()" aria-hidden="true"></div>
+
+<aside
+  #drawer
+  id="site-drawer"
+  class="drawer"
+  [class.is-open]="open()"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Site menu"
+  [attr.inert]="open() ? null : ''"
+>
+  <div class="drawer__head">
+    <a class="brand" routerLink="/" aria-label="fxpressTraders home">
+      <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 17 10 11l3 3 6-7M14 7h5v5" /></svg></span>
+      <span class="brand__word">fxpress<b>Traders</b></span>
+    </a>
+    <button #closeBtn type="button" class="drawer__close" aria-label="Close menu" (click)="close()">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+    </button>
+  </div>
+
+  <div class="drawer__scroll">
+    <p class="drawer__label">Menu</p>
+    <nav class="drawer__nav" aria-label="Mobile">
+      @for (l of links; track l.path; let i = $index) {
+        <a
+          [routerLink]="l.path"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: l.path === '/' }"
+          ariaCurrentWhenActive="page"
+          [style.--i]="i"
+        >
+          <span class="drawer__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path [attr.d]="l.icon" /></svg></span>
+          <span class="drawer__text">{{ l.label }}</span>
+          <svg class="drawer__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+        </a>
+      }
+    </nav>
+
+    <p class="drawer__label">Get started</p>
+    <div class="drawer__cta" [style.--i]="links.length">
+      <a class="btn btn--primary drawer__btn" routerLink="/community">
+        Join the free community
+        <svg class="ico ico--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      <div class="drawer__duo">
+        <a class="drawer__chip drawer__chip--wa" [href]="whatsappUrl" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.3z" /><path d="M9.2 8.3c.2 3.4 3 6.3 6.5 6.5l1-1.5-1.9-1-1 .9c-1-.5-1.8-1.3-2.3-2.3l.9-1-1-1.9z" /></svg>
+          WhatsApp
+        </a>
+        <a class="drawer__chip drawer__chip--tg" [href]="telegramUrl" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4 3 11l6 2.2M21 4l-3.2 15L9 13.2M21 4 9 13.2m0 0V19l3.2-3.6" /></svg>
+          Telegram
+        </a>
+      </div>
+      <a class="drawer__call" [href]="phoneUrl">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" /></svg>
+        <span><small>Call us</small>{{ phone }}</span>
+      </a>
+    </div>
+
+    <p class="drawer__label">More</p>
+    <nav class="drawer__more" aria-label="More links" [style.--i]="links.length + 1">
+      <a routerLink="/community" routerLinkActive="is-active">Community</a>
+      <a routerLink="/how-it-works" fragment="faq">FAQ</a>
+      <a routerLink="/risk-disclosure" routerLinkActive="is-active">Risk disclosure</a>
+    </nav>
+
+    <p class="drawer__fine">
+      Education only. Trading is risky and you can lose money. Nothing here is financial advice.
+    </p>
+  </div>
+</aside>

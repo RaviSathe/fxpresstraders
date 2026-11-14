@@ -1,0 +1,104 @@
+<app-page-hero
+  eyebrow="The course"
+  title="From your first chart to"
+  hot="a trading plan."
+  lede="Six modules, taken in order. Each one builds on the last, so you're never thrown into the deep end."
+>
+  <ul class="chips">
+    <li><strong>{{ modules.length }}</strong> modules</li>
+    <li><strong>{{ lessonCount }}</strong> lessons</li>
+    <li><strong>Forex</strong> &amp; crypto</li>
+    <li><strong>Beginner</strong> friendly</li>
+  </ul>
+</app-page-hero>
+
+<!-- Module index -->
+<section class="section section--flush">
+  <div class="wrap">
+    <nav class="module-index" aria-label="Modules" data-reveal>
+      @for (m of modules; track m.title; let i = $index) {
+        <a routerLink="/course" [fragment]="'module-' + (i + 1)">
+          <span class="mono">{{ no(i) }}</span>{{ m.title }}
+        </a>
+      }
+    </nav>
+  </div>
+</section>
+
+<!-- Modules in detail -->
+<section class="section section--flush">
+  <div class="wrap modules">
+    <span class="modules__rail" aria-hidden="true"></span>
+    @for (m of modules; track m.title; let i = $index) {
+      <article class="module" [id]="'module-' + (i + 1)" data-spot data-reveal>
+        <div class="module__side">
+          <span class="module__no">{{ no(i) }}</span>
+          <span class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path [attr.d]="m.icon" /></svg>
+          </span>
+        </div>
+        <div class="module__main">
+          <h2 class="h3">{{ m.title }}</h2>
+          <p class="module__body">{{ m.body }}</p>
+          <ol class="lessons">
+            @for (l of m.lessons; track l; let j = $index) {
+              <li><span class="mono">{{ i + 1 }}.{{ j + 1 }}</span>{{ l }}</li>
+            }
+          </ol>
+          <p class="outcome">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4 4 10-10" /></svg>
+            <span><strong>By the end:</strong> {{ m.outcome }}</span>
+          </p>
+        </div>
+      </article>
+    }
+    <p class="fine center">Draft syllabus. Module and lesson list to be confirmed by fxpressTraders.</p>
+  </div>
+</section>
+
+<!-- How lessons are delivered -->
+<section class="section">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">How you learn</p>
+      <h2 class="h2">Short lessons. <span class="soft">Real charts.</span></h2>
+    </header>
+    <ul class="feature-grid">
+      <li data-spot data-reveal>
+        <h3>In your pocket</h3>
+        <p>Lessons are shared in Telegram and WhatsApp, so a phone is all you need.</p>
+      </li>
+      <li data-spot data-reveal style="--d: 80ms">
+        <h3>Chart breakdowns</h3>
+        <p>Real charts marked up step by step, so you can see each idea on live markets.</p>
+      </li>
+      <li data-spot data-reveal style="--d: 160ms">
+        <h3>Demo first</h3>
+        <p>Every skill is practised on a free demo account before any real money is involved.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- What it isn't -->
+<section class="section section--tight">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">What this course is not</p>
+      <h2 class="h2">No shortcuts, <span class="soft">on purpose.</span></h2>
+    </header>
+    <ul class="not-grid">
+      @for (n of notIncluded; track n.title; let i = $index) {
+        <li data-spot data-reveal [style.--d]="i * 80 + 'ms'">
+          <span class="not-grid__x" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg>
+          </span>
+          <h3>{{ n.title }}</h3>
+          <p>{{ n.body }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<app-join-cta title="Start module one today." body="Join the free community and the first lessons are waiting for you." />
