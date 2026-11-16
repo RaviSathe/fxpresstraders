@@ -22,7 +22,7 @@ app-area-chart {
 
 .text-hot {
   display: inline-block;
-  background: linear-gradient(180deg, #ffb36b 0%, #ff6a28 45%, #e0390a 100%);
+  background: linear-gradient(180deg, #ffc68f 0%, #ff8a4f 45%, #f0612e 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -158,7 +158,7 @@ app-area-chart {
     &:hover {
       color: var(--text);
       border-color: var(--line-hot);
-      background: rgba(255, 91, 31, 0.06);
+      background: rgba(255, 122, 66, 0.06);
     }
   }
 }
@@ -217,7 +217,7 @@ app-area-chart {
     font-family: var(--mono);
     font-size: 28px;
     font-weight: 600;
-    color: rgba(255, 140, 70, 0.55);
+    color: rgba(255, 164, 99, 0.55);
   }
 
   &:hover .card__icon {
@@ -422,8 +422,8 @@ app-area-chart {
   background: radial-gradient(circle at 30% 25%, #4a4a52, #16161a 70%);
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.25),
-    0 0 0 2px rgba(255, 120, 60, 0.35),
-    0 10px 30px -8px rgba(255, 91, 31, 0.6);
+    0 0 0 2px rgba(255, 150, 100, 0.35),
+    0 10px 30px -8px rgba(255, 122, 66, 0.6);
 
   &[data-coin='0'] {
     background: radial-gradient(circle at 30% 25%, #ffc26b, #f7931a 45%, #a85500 85%);
@@ -517,7 +517,7 @@ app-area-chart {
 
     &[data-focus='forex'] .col-forex,
     &[data-focus='crypto'] .col-crypto {
-      background: rgba(255, 91, 31, 0.07);
+      background: rgba(255, 122, 66, 0.07);
     }
 
     &[data-focus='forex'] thead .col-forex,
@@ -612,7 +612,7 @@ app-area-chart {
 
     &[open] {
       border-color: var(--line-hot);
-      background: linear-gradient(170deg, rgba(255, 91, 31, 0.08), rgba(255, 255, 255, 0.01));
+      background: linear-gradient(170deg, rgba(255, 122, 66, 0.08), rgba(255, 255, 255, 0.01));
     }
 
     summary {
@@ -755,7 +755,7 @@ app-area-chart {
 
   &:hover {
     transform: translateY(-6px);
-    box-shadow: 0 30px 60px -30px rgba(255, 91, 31, 0.5);
+    box-shadow: 0 30px 60px -30px rgba(255, 122, 66, 0.5);
   }
 
   p {
@@ -937,7 +937,7 @@ app-area-chart {
     font-size: clamp(80px, 18vw, 180px);
     font-weight: 600;
     line-height: 1;
-    background: linear-gradient(180deg, #ffb36b, #ff5b1f 60%, transparent);
+    background: linear-gradient(180deg, #ffc68f, #ff7a42 60%, transparent);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -1201,7 +1201,7 @@ app-area-chart {
 }
 
 .area__level {
-  stroke: rgba(255, 179, 107, 0.45);
+  stroke: rgba(255, 198, 143, 0.45);
   stroke-dasharray: 3 5;
   vector-effect: non-scaling-stroke;
 }
@@ -1253,7 +1253,7 @@ app-area-chart {
 .tag--demo {
   color: var(--orange-2);
   border-color: var(--line-hot);
-  background: rgba(255, 91, 31, 0.08);
+  background: rgba(255, 122, 66, 0.08);
 }
 
 .live-dot--orange {

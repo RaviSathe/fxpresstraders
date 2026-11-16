@@ -64,11 +64,11 @@
     border: 1px solid var(--line-hot);
     border-radius: 26px;
     background:
-      radial-gradient(ellipse at 100% 0%, rgba(255, 91, 31, 0.22), transparent 55%),
+      radial-gradient(ellipse at 100% 0%, rgba(255, 122, 66, 0.22), transparent 55%),
       linear-gradient(170deg, #17100d, #0b0706);
     box-shadow:
       0 40px 100px -20px rgba(0, 0, 0, 0.9),
-      0 0 80px -20px rgba(255, 91, 31, 0.45);
+      0 0 80px -20px rgba(255, 122, 66, 0.45);
   }
 
   &__x {
@@ -293,8 +293,8 @@
     &:focus {
       outline: none;
       border-color: var(--orange);
-      background: rgba(255, 91, 31, 0.05);
-      box-shadow: 0 0 0 3px rgba(255, 91, 31, 0.2);
+      background: rgba(255, 122, 66, 0.05);
+      box-shadow: 0 0 0 3px rgba(255, 122, 66, 0.2);
     }
   }
 
@@ -365,7 +365,7 @@
   input:checked + span {
     color: #fff;
     border-color: var(--orange);
-    background: linear-gradient(180deg, rgba(255, 122, 53, 0.35), rgba(255, 91, 31, 0.2));
+    background: linear-gradient(180deg, rgba(255, 149, 88, 0.35), rgba(255, 122, 66, 0.2));
   }
 
   input:focus-visible + span {

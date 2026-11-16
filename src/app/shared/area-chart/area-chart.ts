@@ -76,8 +76,8 @@ const START_BALANCE = 10_000;
         <svg class="area" [attr.viewBox]="'0 0 ' + w + ' ' + h" preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <linearGradient [attr.id]="gradId" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#ff5b1f" stop-opacity=".55" />
-              <stop offset="1" stop-color="#ff5b1f" stop-opacity="0" />
+              <stop offset="0" stop-color="#ff7a42" stop-opacity=".55" />
+              <stop offset="1" stop-color="#ff7a42" stop-opacity="0" />
             </linearGradient>
           </defs>
           <path class="area__fill" [attr.fill]="'url(#' + gradId + ')'" [attr.d]="chart().area" [style.d]="'path(&quot;' + chart().area + '&quot;)'" />
@@ -88,8 +88,8 @@ const START_BALANCE = 10_000;
         <svg class="area area--live" [attr.viewBox]="'0 0 ' + w + ' ' + h" preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <linearGradient [attr.id]="gradId" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#ff5b1f" stop-opacity=".55" />
-              <stop offset="1" stop-color="#ff5b1f" stop-opacity="0" />
+              <stop offset="0" stop-color="#ff7a42" stop-opacity=".55" />
+              <stop offset="1" stop-color="#ff7a42" stop-opacity="0" />
             </linearGradient>
           </defs>
           <line class="area__grid" x1="0" [attr.x2]="w" y1="50" y2="50" />

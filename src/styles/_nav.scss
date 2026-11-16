@@ -55,7 +55,7 @@ $nav-collapse: 1080px;
 
   &:hover {
     border-color: var(--line-hot);
-    background: rgba(255, 91, 31, 0.1);
+    background: rgba(255, 122, 66, 0.1);
   }
 
   span {
@@ -148,8 +148,8 @@ $nav-collapse: 1080px;
   height: 100dvh;
   border-left: 1px solid var(--line-hot);
   background:
-    radial-gradient(ellipse at 100% 0%, rgba(255, 91, 31, 0.2), transparent 50%),
-    radial-gradient(ellipse at 0% 100%, rgba(255, 91, 31, 0.1), transparent 55%),
+    radial-gradient(ellipse at 100% 0%, rgba(255, 122, 66, 0.2), transparent 50%),
+    radial-gradient(ellipse at 0% 100%, rgba(255, 122, 66, 0.1), transparent 55%),
     #0b0706;
   box-shadow: -30px 0 80px rgba(0, 0, 0, 0.6);
   transform: translateX(105%);
@@ -218,7 +218,7 @@ $nav-collapse: 1080px;
     -webkit-overflow-scrolling: touch;
     padding: 6px 16px max(24px, env(safe-area-inset-bottom)) 16px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 140, 70, 0.35) transparent;
+    scrollbar-color: rgba(255, 164, 99, 0.35) transparent;
 
     &::-webkit-scrollbar {
       width: 6px;
@@ -226,7 +226,7 @@ $nav-collapse: 1080px;
 
     &::-webkit-scrollbar-thumb {
       border-radius: 6px;
-      background: rgba(255, 140, 70, 0.35);
+      background: rgba(255, 164, 99, 0.35);
     }
   }
 
@@ -270,7 +270,7 @@ $nav-collapse: 1080px;
       &.is-active {
         color: var(--text);
         border-color: var(--line-hot);
-        background: linear-gradient(90deg, rgba(255, 91, 31, 0.18), rgba(255, 91, 31, 0.03));
+        background: linear-gradient(90deg, rgba(255, 122, 66, 0.18), rgba(255, 122, 66, 0.03));
 
         .drawer__ico {
           color: #fff;
